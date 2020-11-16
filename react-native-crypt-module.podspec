@@ -18,4 +18,6 @@ Pod::Spec.new do |s|
   
 
   s.dependency "React"
+  s.dependency 'CryptoSwift', '~> 1.3.5'
+
 end
