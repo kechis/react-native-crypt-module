@@ -8,14 +8,15 @@ class CryptModule: NSObject {
     func multiply(a: Float, b: Float, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
         resolve(a*b)
     }
-    @objc(encrypt:withIV:withResolver:withRejecter:)
-    func encrypt(a: String, iv: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        //let str = try! a.aesDecrypt(KEY: key, IV: iv)
-        let str = aesEncrypt(value: a, key: key)
+    
+    @objc(encrypt:withResolver:withRejecter:)
+    func encrypt(a: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+        //let str = try! aesEncrypt(key: key, iv: iv, message: a)
+        let str = aesEncrypt_1(value: a, key: key)
         resolve(str)
     }
     
-    func aesEncrypt(value: String, key: String) -> String {
+    func aesEncrypt_1(value: String, key: String) -> String {
         let ivSlice = key.bytes[0..<16]
         let ivArray = Array(ivSlice)
         let data = Array(value.utf8)
@@ -28,6 +29,23 @@ class CryptModule: NSObject {
             return "error"
         }
     }
+    
+    func aesEncrypt(key: String, iv: String, message: String) throws -> String{
+        let data = message.data(using: .utf8)!
+        // let enc = try AES(key: key, iv: iv, padding: .pkcs5).encrypt([UInt8](data))
+        let enc = try AES(key: Array(key.utf8), blockMode: CBC(iv: Array(iv.utf8)), padding: .pkcs5).encrypt([UInt8](data))
+        let encryptedData = Data(enc)
+        return encryptedData.base64EncodedString()
+    }
+
+    func aesDecrypt(key: String, iv: String, message: String) throws -> String {
+        let data = NSData(base64Encoded: message, options: NSData.Base64DecodingOptions(rawValue: 0))!
+        let dec = try AES(key: key, iv: iv, padding: .pkcs5).decrypt([UInt8](data))
+        let decryptedData = Data(dec)
+        return String(bytes: decryptedData.bytes, encoding: .utf8) ?? "Could not decrypt"
+    }
+    
+    
 }
 
 
