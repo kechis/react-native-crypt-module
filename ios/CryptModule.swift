@@ -4,15 +4,15 @@ import CryptoSwift
 class CryptModule: NSObject {
     let key = "bbC2H19lkVbQDfakxcrtNMQdd0FloLyw" // length == 32
     let iv = "gqLOHUioQ0QjhuvI" // length == 16
-    @objc(multiply:withB:withResolver:withRejecter:)
-    func multiply(a: Float, b: Float, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        resolve(a*b)
+    @objc(decrypt:withIV:withKey:withResolver:withRejecter:)
+    func decrypt(str: String, iv: String, key:String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+        resolve(str)
     }
     
-    @objc(encrypt:withResolver:withRejecter:)
-    func encrypt(a: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+    @objc(encrypt:withIV:withKey:withResolver:withRejecter:)
+    func encrypt(str: String, iv: String, key:String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
         //let str = try! aesEncrypt(key: key, iv: iv, message: a)
-        let str = aesEncrypt_1(value: a, key: key)
+        let str = aesEncrypt_1(value: str, key: key)
         resolve(str)
     }
     

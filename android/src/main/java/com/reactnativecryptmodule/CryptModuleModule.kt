@@ -14,10 +14,13 @@ class CryptModuleModule(reactContext: ReactApplicationContext) : ReactContextBas
     // Example method
     // See https://facebook.github.io/react-native/docs/native-modules-android
     @ReactMethod
-    fun multiply(a: Int, b: Int, promise: Promise) {
-    
-      promise.resolve(a * b)
-    
+    fun decrypt(str: String, iv: String, key: String, promise: Promise) {
+      promise.resolve(str)
+    }
+
+    @ReactMethod
+    fun encrypt(str: String, iv: String, key: String, promise: Promise) {
+      promise.resolve(str)
     }
 
     

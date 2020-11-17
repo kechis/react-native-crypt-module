@@ -1,8 +1,8 @@
 import { NativeModules } from 'react-native';
 
 type CryptModuleType = {
-  multiply(a: number, b: number): Promise<number>;
-  encrypt(a: string): Promise<string>;
+  encrypt(a: string, iv: string, key: string): Promise<string>;
+  decrypt(a: string, iv: string, key: string): Promise<string>;
 };
 
 const { CryptModule } = NativeModules;
