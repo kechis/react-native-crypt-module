@@ -18,13 +18,19 @@ export default function App() {
 
   const iv = makeid(10);
   const key = makeid(16);
+  const str = 'test';
+  CryptModule.encrypt(str, iv, key).then(setResultStr);
 
-  React.useEffect(() => {
-    CryptModule.encrypt('test', iv, key).then(setResultStr);
-  }, [iv, key]);
+  // React.useEffect(() => {
+  //   CryptModule.encrypt('test', iv, key).then(setResultStr);
+  // }, [iv, key]);
 
   return (
     <View style={styles.container}>
+      <Text>str: {str}</Text>
+      <Text>iv: {iv}</Text>
+      <Text>key: {key}</Text>
+
       <Text>ResultStr: {resultStr}</Text>
     </View>
   );
